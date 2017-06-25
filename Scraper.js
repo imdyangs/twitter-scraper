@@ -10,25 +10,24 @@ gotData = async (err, data, res) => {
   var returnArray = [];
   var user_screen;
   data.statuses.map(async (status) => {
-    console.log(status.user.id)
     await T.get(
       "users/show",
       {
         user_id: status.user.id
       },
       (err, data, res) => {
-        console.log(data.screen_name);
         user_screen=data.screen_name;
       }
     );
-    const url = 
+    const url = 'http://twitter.com/' + user_screen + '/status/' + status.id_str;
+    console.log(url);
     returnArray.push({
       tweet: status.text,
       user_id: status.user.id,
       user_screenname: user_screen,
       id_str: status.id_str,
-      tweet_id: status.id
-      tweet_url: 
+      tweet_id: status.id,
+      tweet_url: url
     });
   });
   jsonfile.spaces = 2;
