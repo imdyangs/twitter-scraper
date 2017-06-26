@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "sentiment": "node sentimentScript",
     "scrape": "node scraper.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -11,7 +12,10 @@
   "author": "David Yang <d65yang@uwaterloo.ca>",
   "license": "ISC",
   "dependencies": {
+    "json2csv": "^3.7.3",
     "jsonfile": "^3.0.0",
+    "lodash": "^4.17.4",
+    "sentiment": "^4.0.0",
     "twit": "^2.2.9"
   }
 }
