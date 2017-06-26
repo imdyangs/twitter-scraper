@@ -1,4 +1,5 @@
-var sentiment = require("sentiment");
+var json2csv = require("json2csv");
+var fs = require("fs");
 var _ = require("lodash");
 
 var bestseats = require("./tweets/bestseats.json");
@@ -22,17 +23,31 @@ var tweetsArray = [
   orchestra,
   pittickets,
   ticketbots,
-  frontrow,
+  frontrow
 ];
 
-var tweetsScore = tweetsArray.map(tweets => {
-  return tweets.reduce((score, tweet) => {
-    return sentiment(tweet.tweet).score + score;
-  }, 0);
+var tweetsArrayName = [
+  "bestseats",
+  "besttickets",
+  "floorseats",
+  "fuckticketmaster",
+  "gafloors",
+  "gapit",
+  "orchestra",
+  "pittickets",
+  "ticketbots",
+  "frontrow"
+];
+
+_.zip(tweetsArrayName, tweetsArray).map(tweets => {
+  json2csv(
+    { data: tweets[1], fields: ["tweet", "user_screenname", "tweet_url"] },
+    function(err, csv) {
+      if (err) console.log(err);
+      fs.writeFile(`${tweets[0]}.csv`, csv, function(err) {
+        if (err) throw err;
+        console.log("file saved");
+      });
+    }
+  );
 });
-
-const fullArray = _.zip(tweetsScore, tweetsArray);
-
-console.log(tweetsScore);
-
-console.log("");
